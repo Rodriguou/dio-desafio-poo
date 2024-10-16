@@ -3,7 +3,15 @@ package br.com.dio.desafio.dominio;
 import java.time.LocalDate;
 
 public class Mentoria extends Conteudo {
-    private LocalDate data;
+    private final LocalDate data;
+
+    public Mentoria(String titulo, String descricao, LocalDate data) {
+        super(titulo, descricao);
+        if (data == null) {
+            throw new IllegalArgumentException("A data da mentoria deve ser informada");
+        }
+        this.data = data;
+    }
 
     @Override
     public double calcularXp() {
@@ -12,10 +20,6 @@ public class Mentoria extends Conteudo {
 
     public LocalDate getData() {
         return data;
-    }
-
-    public void setData(LocalDate data) {
-        this.data = data;
     }
 
     @Override

@@ -1,19 +1,26 @@
 package br.com.dio.desafio.dominio;
 
-import java.sql.SQLOutput;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
 public class Dev {
-    private String nome;
-    private Set<Conteudo> conteudosInscritos = new LinkedHashSet<>();
-    private Set<Conteudo> conteudosConcluidos = new LinkedHashSet<>();
+    private final String nome;
+    private final Set<Conteudo> conteudosInscritos = new LinkedHashSet<>();
+    private final Set<Conteudo> conteudosConcluidos = new LinkedHashSet<>();
+
+    public Dev(String nome) {
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new IllegalArgumentException("O nome do desenvolvedor é obrigatório");
+        }
+        this.nome = nome;
+    }
 
     public void inscreverBootcamp(Bootcamp bootcamp) {
         this.conteudosInscritos.addAll(bootcamp.getConteudos());
-        bootcamp.getDevsInscritos().add(this);
+        bootcamp.adicionarDevInscrito(this);
     }
 
     public void progredir() {
@@ -34,24 +41,12 @@ public class Dev {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public Set<Conteudo> getConteudosInscritos() {
-        return conteudosInscritos;
-    }
-
-    public void setConteudosInscritos(Set<Conteudo> conteudosInscritos) {
-        this.conteudosInscritos = conteudosInscritos;
+        return Collections.unmodifiableSet(conteudosInscritos);
     }
 
     public Set<Conteudo> getConteudosConcluidos() {
-        return conteudosConcluidos;
-    }
-
-    public void setConteudosConcluidos(Set<Conteudo> conteudosConcluidos) {
-        this.conteudosConcluidos = conteudosConcluidos;
+        return Collections.unmodifiableSet(conteudosConcluidos);
     }
 
     @Override

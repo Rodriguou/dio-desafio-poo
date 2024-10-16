@@ -1,33 +1,37 @@
 package br.com.dio.desafio.dominio;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
 public class Bootcamp {
-    private String nome;
-    private String descricao;
+    private final String nome;
+    private final String descricao;
     private final LocalDate dataInicio = LocalDate.now();
     private final LocalDate dataFinal = dataInicio.plusDays(45);
-    private Set<Dev> devsInscritos = new HashSet<>();
-    private Set<Conteudo> conteudos = new LinkedHashSet<>();
+    private final Set<Dev> devsInscritos = new HashSet<>();
+    private final Set<Conteudo> conteudos = new LinkedHashSet<>();
+
+    public Bootcamp(String nome, String descricao) {
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new IllegalArgumentException("O nome do Bootcamp é obrigatório");
+        }
+        if (descricao == null || descricao.trim().isEmpty()) {
+            throw new IllegalArgumentException("A descrição do Bootcamp é obrigatória");
+        }
+        this.nome = nome;
+        this.descricao = descricao;
+    }
 
     public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public String getDescricao() {
         return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
     }
 
     public LocalDate getDataInicio() {
@@ -39,19 +43,19 @@ public class Bootcamp {
     }
 
     public Set<Dev> getDevsInscritos() {
-        return devsInscritos;
-    }
-
-    public void setDevsInscritos(Set<Dev> devsInscritos) {
-        this.devsInscritos = devsInscritos;
+        return Collections.unmodifiableSet(devsInscritos);
     }
 
     public Set<Conteudo> getConteudos() {
-        return conteudos;
+        return Collections.unmodifiableSet(conteudos);
     }
 
-    public void setConteudos(Set<Conteudo> conteudos) {
-        this.conteudos = conteudos;
+    public void adicionarDevInscrito(Dev dev) {
+        devsInscritos.add(dev);
+    }
+
+    public void adicionarConteudo(Conteudo conteudo) {
+        conteudos.add(conteudo);
     }
 
     @Override
